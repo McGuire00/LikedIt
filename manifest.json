@@ -5,9 +5,6 @@
     "description": "Visually highlight which Instagram posts you've liked.",
     "permissions": ["activeTab", "scripting", "storage"],
     "host_permissions": ["https://www.instagram.com/*"],
-    "background": {
-        "service_worker": "background/background.js"
-    },
     "content_scripts": [
         {
             "matches": ["https://www.instagram.com/*"],
