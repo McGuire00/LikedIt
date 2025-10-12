@@ -1,10 +1,10 @@
 let interceptorActive = false;
-console.log("💡 HeartView content script loaded");
+console.log("💡 LikedIt content script loaded");
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.type === "START_FIND_LIKED" && !interceptorActive) {
         interceptorActive = true;
-        console.log("🔍 HeartView: Watching for liked posts...");
+        console.log("🔍 LikedIt: Watching for liked posts...");
         setupListener();
     }
 });
