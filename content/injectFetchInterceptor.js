@@ -1,6 +1,6 @@
 (function () {
-    if (window.__heartviewInterceptor) return;
-    window.__heartviewInterceptor = true;
+    if (window.__likedItInterceptor) return;
+    window.__likedItInterceptor = true;
 
     const originalFetch = window.fetch;
     window.fetch = async (...args) => {
