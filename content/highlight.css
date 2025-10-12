@@ -1,0 +1,5 @@
+.hv-liked {
+    outline: 3px solid #ff2a2a !important;
+    border-radius: 8px;
+    transition: outline 0.25s ease-in-out;
+}
