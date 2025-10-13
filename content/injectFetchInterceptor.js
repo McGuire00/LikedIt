@@ -20,7 +20,6 @@
     const originalOpen = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function (...args) {
         this._url = args[1];
-        console.log("Arguments", args[1]);
         return originalOpen.apply(this, args);
     };
 
@@ -38,7 +37,7 @@
     };
 
     function handleGraphQLResponse(data) {
-        if (data?.data?.user?.edge_owner_to_timeline_media) {
+        if (data?.data?.xdt_api__v1__feed__user_timeline_graphql_connection) {
             console.log("📸 Caught GraphQL XHR data:", data);
             window.__LIKEDIT_LATEST__ = data;
             window.postMessage({
