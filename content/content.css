@@ -5,6 +5,16 @@
     z-index: 9999 !important;
 }
 
+.hv-liked::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 3px solid red;
+    border-radius: 6px;
+    pointer-events: none;
+    box-shadow: 0 0 10px red;
+}
+
 .hv-liked img,
 .hv-liked video {
     outline: 3px solid #ff2a2a !important;
