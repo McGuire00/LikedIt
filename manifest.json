@@ -5,11 +5,18 @@
     "description": "Visually highlight which Instagram posts you've liked.",
     "permissions": ["activeTab", "scripting", "storage"],
     "host_permissions": ["https://www.instagram.com/*"],
+
     "content_scripts": [
         {
             "matches": ["*://*.instagram.com/*"],
-            "js": ["content/injectFetchInterceptor.js", "content/content.js"],
+            "js": ["content/content.js"],
             "css": ["content/content.css"]
+        },
+        {
+            "matches": ["*://*.instagram.com/*"],
+            "js": ["content/injectFetchInterceptor.js"],
+            "run_at": "document_start",
+            "world": "MAIN"
         }
     ],
     "action": {
