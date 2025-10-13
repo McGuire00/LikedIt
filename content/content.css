@@ -1,0 +1,13 @@
+.hv-liked {
+    outline: 3px solid red !important;
+    border-radius: 6px !important;
+    position: relative !important;
+    z-index: 9999 !important;
+}
+
+.hv-liked img,
+.hv-liked video {
+    outline: 3px solid #ff2a2a !important;
+    border-radius: 8px;
+    transition: outline 0.25s ease-in-out;
+}

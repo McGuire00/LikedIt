@@ -1,10 +1,12 @@
+let latestGraphQLData = null;
 console.log("💡 LikedIt content script loaded");
 
 window.addEventListener("message", (event) => {
     if (event.source !== window) return;
     if (event.data.type === "IG_GRAPHQL_RESPONSE") {
         console.log("📬 Received IG data from interceptor");
-        handleGraphQLResponse(event.data.payload);
+        latestGraphQLData = event.data.payload;
+        // handleGraphQLResponse(event.data.payload);
     }
 });
 
@@ -12,10 +14,9 @@ chrome.runtime.onMessage.addListener((msg) => {
     if (msg.type === "START_FIND_LIKED") {
         console.log("▶️ Find Liked Photos triggered");
 
-        // If we already have cached data from the interceptor, use it
-        if (window.__LIKEDIT_LATEST__) {
+        if (latestGraphQLData) {
             console.log("📦 Using cached GraphQL data");
-            handleGraphQLResponse(window.__LIKEDIT_LATEST__);
+            handleGraphQLResponse(latestGraphQLData);
         } else {
             console.warn("⚠️ No cached data yet — try scrolling the page to trigger requests.");
         }
@@ -23,14 +24,20 @@ chrome.runtime.onMessage.addListener((msg) => {
 });
 
 function handleGraphQLResponse(data) {
-    const edges = data?.data?.user?.edge_owner_to_timeline_media?.edges || [];
+    const edges = data?.data?.xdt_api__v1__feed__user_timeline_graphql_connection?.edges || [];
     const liked = edges.filter((edge) => edge.node.has_liked);
 
     liked.forEach((edge) => {
-        const shortcode = edge.node.shortcode;
-        const link = document.querySelector(`a[href="/p/${shortcode}/"]`);
+        const shortcode = edge.node.code;
+        const link = document.querySelector(`a[href$="/${shortcode}/"], a[href$="/${shortcode}"]`);
+
         if (link) {
-            link.classList.add("hv-liked");
+            const wrapperDiv = link.querySelector("div");
+            if (wrapperDiv) {
+                wrapperDiv.classList.add("hv-liked");
+            } else {
+                link.classList.add("hv-liked");
+            }
         }
     });
 
