@@ -21,6 +21,10 @@ chrome.runtime.onMessage.addListener((msg) => {
             console.warn("⚠️ No cached data yet — try scrolling the page to trigger requests.");
         }
     }
+
+    if (msg.type === "UNLIKE_ALL") {
+        unlikeAllLikedPosts();
+    }
 });
 
 function handleGraphQLResponse(data) {
@@ -46,4 +50,32 @@ function handleGraphQLResponse(data) {
     } else {
         console.log("💭 No liked posts found yet.");
     }
+}
+
+async function unlikeAllLikedPosts() {
+    const likedDivs = document.querySelectorAll(".hv-liked");
+    if (!likedDivs.length) {
+        console.warn("⚠️ No liked posts found to unlike.");
+        return;
+    }
+
+    console.log(`💔 Attempting to unlike ${likedDivs.length} posts...`);
+
+    for (const div of likedDivs) {
+        try {
+            const heartButton = div.closest("a")?.parentElement?.querySelector('svg[aria-label="Unlike"]');
+            if (heartButton) {
+                heartButton.click();
+            } else {
+                const link = div.closest("a")?.href;
+                if (link) {
+                    window.open(link, "_blank");
+                }
+            }
+        } catch (err) {
+            console.error("❌ Failed to unlike a post:", err);
+        }
+    }
+
+    console.log("✅ Finished attempting to unlike all visible posts.");
 }
