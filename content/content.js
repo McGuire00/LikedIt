@@ -65,10 +65,12 @@ async function unlikeAllLikedPosts() {
     }
 
     console.log(`💔 Attempting to unlike ${likedDivs.length} posts...`);
+    const delay = (ms) => new Promise((r) => setTimeout(r, ms));
 
     for (const div of likedDivs) {
         try {
             const heartButton = div.closest("a")?.parentElement?.querySelector('svg[aria-label="Unlike"]');
+
             if (heartButton) {
                 heartButton.click();
             } else {
@@ -77,6 +79,7 @@ async function unlikeAllLikedPosts() {
                     window.open(link, "_blank");
                 }
             }
+            await delay(500);
         } catch (err) {
             console.error("❌ Failed to unlike a post:", err);
         }
