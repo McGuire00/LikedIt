@@ -1,12 +1,14 @@
-let latestGraphQLData = null;
+let latestGraphQLData = [];
+const highlightedShortcodes = new Set();
+
 console.log("💡 LikedIt content script loaded");
 
 window.addEventListener("message", (event) => {
     if (event.source !== window) return;
     if (event.data.type === "IG_GRAPHQL_RESPONSE") {
         console.log("📬 Received IG data from interceptor");
-        latestGraphQLData = event.data.payload;
-        // handleGraphQLResponse(event.data.payload);
+
+        latestGraphQLData.push(event.data.payload);
     }
 });
 
@@ -14,9 +16,9 @@ chrome.runtime.onMessage.addListener((msg) => {
     if (msg.type === "START_FIND_LIKED") {
         console.log("▶️ Find Liked Photos triggered");
 
-        if (latestGraphQLData) {
-            console.log("📦 Using cached GraphQL data");
-            handleGraphQLResponse(latestGraphQLData);
+        if (latestGraphQLData.length > 0) {
+            console.log(`📦 Using ${latestGraphQLData.length} cached batches`);
+            latestGraphQLData.forEach((batch) => handleGraphQLResponse(batch));
         } else {
             console.warn("⚠️ No cached data yet — try scrolling the page to trigger requests.");
         }
@@ -33,6 +35,9 @@ function handleGraphQLResponse(data) {
 
     liked.forEach((edge) => {
         const shortcode = edge.node.code;
+        if (highlightedShortcodes.has(shortcode)) return;
+        highlightedShortcodes.add(shortcode);
+
         const link = document.querySelector(`a[href$="/${shortcode}/"], a[href$="/${shortcode}"]`);
 
         if (link) {
