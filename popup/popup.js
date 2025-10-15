@@ -3,13 +3,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const unlikeBtn = document.getElementById("unlikeAll");
 
     findBtn.addEventListener("click", async () => {
-        console.log("🟢 Button clicked (sending START_FIND_LIKED)");
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         await chrome.tabs.sendMessage(tab.id, { type: "START_FIND_LIKED" });
     });
 
     unlikeBtn.addEventListener("click", async () => {
-        console.log("🟢 Button clicked (sending START_FIND_LIKED)");
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         await chrome.tabs.sendMessage(tab.id, { type: "UNLIKE_ALL" });
     });

@@ -1,8 +1,6 @@
 (function () {
     if (window.__likedItInterceptor) return;
     window.__likedItInterceptor = true;
-    console.log("✅ LikedIt interceptor active");
-
     const originalFetch = window.fetch;
     if (originalFetch) {
         window.fetch = async (...args) => {
@@ -38,7 +36,6 @@
 
     function handleGraphQLResponse(data) {
         if (data?.data?.xdt_api__v1__feed__user_timeline_graphql_connection) {
-            console.log("📸 Caught GraphQL XHR data:", data);
             window.__LIKEDIT_LATEST__ = data;
             window.postMessage({
                 type: "IG_GRAPHQL_RESPONSE",
