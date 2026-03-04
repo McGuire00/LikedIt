@@ -3,7 +3,7 @@
     "name": "LikedIt",
     "version": "1.0.0",
     "description": "Visually highlight which Instagram posts you've liked.",
-    "permissions": ["tabs", "storage"],
+    "permissions": ["tabs"],
     "host_permissions": ["https://www.instagram.com/*"],
     "content_scripts": [
         {
