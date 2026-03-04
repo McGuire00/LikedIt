@@ -3,19 +3,19 @@
     "name": "LikedIt",
     "version": "1.0.0",
     "description": "Visually highlight which Instagram posts you've liked.",
-    "permissions": ["activeTab", "scripting", "storage"],
+    "permissions": ["tabs", "storage"],
     "host_permissions": ["https://www.instagram.com/*"],
     "content_scripts": [
         {
-            "matches": ["*://*.instagram.com/*"],
-            "js": ["content/content.js"],
-            "css": ["content/content.css"]
-        },
-        {
-            "matches": ["*://*.instagram.com/*"],
+            "matches": ["https://www.instagram.com/*"],
             "js": ["content/injectFetchInterceptor.js"],
             "run_at": "document_start",
             "world": "MAIN"
+        },
+        {
+            "matches": ["https://www.instagram.com/*"],
+            "js": ["content/content.js"],
+            "css": ["content/content.css"]
         }
     ],
     "action": {
